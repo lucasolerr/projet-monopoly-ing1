@@ -1,5 +1,5 @@
 name-template: 'Release $NEXT_PATCH_VERSION'
-tag-template: ''
+tag-template: 'v$NEXT_PATCH_VERSION'
 tag-prefix: ''
 change-template: '* $TITLE (#$NUMBER) @$AUTHOR'
 change-title-escapes: ''
