@@ -24,6 +24,9 @@ jobs:
   generate-release-notes:
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.release_notes.outputs.tag_name }}
+      release_name: ${{ steps.release_notes.outputs.name }}
     steps:
       - name: Generate Release Notes
         id: release_notes
@@ -32,6 +35,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           config-path: .github/release-drafter.yml
+
+      - name: Set Output Variables
+        id: set_outputs
+        run: |
+          echo "::set-output name=tag_name::${{ steps.release_notes.outputs.tag_name }}"
+          echo "::set-output name=release_name::${{ steps.release_notes.outputs.name }}"
 
   publish:
     needs: generate-release-notes
@@ -43,8 +52,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ steps.release_notes.outputs.tag_name }}
-          release_name: ${{ steps.release_notes.outputs.name }}
+          tag_name: ${{ needs.generate-release-notes.outputs.tag_name }}
+          release_name: ${{ needs.generate-release-notes.outputs.release_name }}
           draft: false
           prerelease: false
 
