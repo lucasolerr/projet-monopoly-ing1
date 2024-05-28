@@ -21,8 +21,11 @@ jobs:
       - name: Build
         run: cmake --build build --config Release
 
-      - name: List build directory contents
-        run: ls -la build
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifacts
+          path: build
 
   generate-release-notes:
     needs: build
@@ -49,6 +52,12 @@ jobs:
     needs: generate-release-notes
     runs-on: ubuntu-latest
     steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: build-artifacts
+          path: build
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -60,9 +69,6 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: List build directory contents for debugging
-        run: ls -la build
-
       - name: Upload Release Asset
         id: upload_release_asset
         uses: actions/upload-release-asset@v1
@@ -70,7 +76,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/ALBPL  # Update this path as needed
+          asset_path: ./build/ALBPL
           asset_name: projet-monopoly-ing1
           asset_content_type: application/octet-stream
 
