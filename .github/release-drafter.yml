@@ -32,4 +32,4 @@ commitish: ''
 category-template: '## $TITLE'
 header: ''
 footer: ''
-
+template: '{{#if nextVersion}}Release {{nextVersion}}{{/if}}'
