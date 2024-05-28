@@ -9,7 +9,6 @@ int main() {
     presentation(&monopoly);
     tirageAuSortOrdreJoueur(&monopoly);
     testTour(&monopoly);
-
     return 0;
 }
 
