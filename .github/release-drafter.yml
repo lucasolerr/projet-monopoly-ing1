@@ -1,0 +1,1 @@
+name-template: 'Release $NEXT_PATCH_VERSION'
