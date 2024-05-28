@@ -42,10 +42,9 @@ jobs:
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
         with:
-          tag_name: ${{ steps.generate-release-notes.outputs.version }}
-          release_name: ${{ steps.generate-release-notes.outputs.version }}
+          tag_name: ${{ steps.release_notes.outputs.version }}
+          release_name: ${{ steps.release_notes.outputs.version }}
           draft: false
           prerelease: false
 
@@ -59,3 +58,4 @@ jobs:
           asset_path: ./build/ALBPL
           asset_name: projet-monopoly-ing1
           asset_content_type: application/octet-stream
+
